@@ -1,26 +1,48 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './interfaces/create-product.dto';
-import { UpdateProductDto } from './interfaces/update-product.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateProductDto, UpdateProductDto } from './interfaces/create-product.dto';
+import { PrismaService } from 'src/core/prisma/prisma.service';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createProductDto: CreateProductDto) {
+    const data = await this.prisma.product.create({
+      data: createProductDto,
+    });
+    return { data, message: 'Product created successfully' };
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    const data = await this.prisma.product.findMany({
+      include: { orders: true },
+    });
+    return { data, message: 'All products fetched successfully' };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const data = await this.prisma.product.findUnique({
+      where: { id },
+      include: { orders: true },
+    });
+    if (!data) throw new NotFoundException(`Product with ID ${id} not found`);
+    return { data, message: `Product with ID ${id} fetched successfully` };
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    const exists = await this.prisma.product.findUnique({ where: { id } });
+    if (!exists) throw new NotFoundException(`Product with ID ${id} not found`);
+    const data = await this.prisma.product.update({
+      where: { id },
+      data: updateProductDto,
+    });
+    return { data, message: `Product with ID ${id} updated successfully` };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+    const exists = await this.prisma.product.findUnique({ where: { id } });
+    if (!exists) throw new NotFoundException(`Product with ID ${id} not found`);
+    const data = await this.prisma.product.delete({ where: { id } });
+    return { data, message: `Product with ID ${id} deleted successfully` };
   }
 }

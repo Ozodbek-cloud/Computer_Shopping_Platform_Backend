@@ -7,27 +7,27 @@ import { UpdateNestedCategoryDto } from './interfaces/update-nested_category.dto
 export class NestedCategoryController {
   constructor(private readonly nestedCategoryService: NestedCategoryService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() createNestedCategoryDto: CreateNestedCategoryDto) {
     return this.nestedCategoryService.create(createNestedCategoryDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.nestedCategoryService.findAll();
   }
 
-  @Get(':id')
+  @Get(':id/one')
   findOne(@Param('id') id: string) {
     return this.nestedCategoryService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch(':id/update')
   update(@Param('id') id: string, @Body() updateNestedCategoryDto: UpdateNestedCategoryDto) {
     return this.nestedCategoryService.update(+id, updateNestedCategoryDto);
   }
 
-  @Delete(':id')
+  @Delete(':id/delete')
   remove(@Param('id') id: string) {
     return this.nestedCategoryService.remove(+id);
   }
