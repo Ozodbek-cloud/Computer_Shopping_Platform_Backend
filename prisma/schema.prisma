@@ -23,23 +23,26 @@ model Category {
 }
 
 model NestedCategory {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   name       String
   categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Product    Product[]
 }
 
 model Product {
-  id             String  @id @default(uuid())
-  title          String
-  about          String
-  color          Json
-  img            String
-  details        Json
-  spec           Json
-  price          Float
-  discount_price Float
-  orders         Order[]
+  id               String         @id @default(uuid())
+  title            String
+  about            String
+  color            Json
+  img              String
+  details          Json
+  spec             Json
+  price            Float
+  discount_price   Float
+  nestedcategoryId Int
+  nestedCategoryId NestedCategory @relation(fields: [nestedcategoryId], references: [id])
+  orders           Order[]
 }
 
 model Order {

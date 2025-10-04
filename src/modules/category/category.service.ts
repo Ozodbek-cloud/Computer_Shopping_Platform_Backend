@@ -22,7 +22,7 @@ export class CategoryService {
   }
 
   async findAll() {
-    let data = await this.prismaService.category.findMany({include: {nestedCategories: true}})
+    let data = await this.prismaService.category.findMany({include: {nestedCategories: {include: {Product: true}}}})
     return {
       data: data,
       message: "Successfully Getted All Categories"

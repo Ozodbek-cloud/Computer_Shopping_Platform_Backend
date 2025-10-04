@@ -4,11 +4,12 @@ import { PrismaService } from 'src/core/prisma/prisma.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, img: Express.Multer.File) {
+    let fileName = img.originalname
     const data = await this.prisma.product.create({
-      data: createProductDto,
+      data: {...createProductDto, img:fileName},
     });
     return { data, message: 'Product created successfully' };
   }

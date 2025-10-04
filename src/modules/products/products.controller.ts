@@ -1,14 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UnsupportedMediaTypeException, UploadedFile } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './interfaces/create-product.dto';
-
+import { ApiConsumes } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @Post('create')
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('img', {
+    storage: diskStorage({
+      destination: "./uploads/img",
+      filename: (req, file, cb) => {
+        let posterName = file.originalname
+        cb(null, posterName)
+      }
+    }),
+
+    fileFilter: (req, file, callback) => {
+      let allowed: string[] = ['image/jpeg', 'image/jpg', 'image/png']
+      if (!allowed.includes(file.mimetype)) {
+        callback(new UnsupportedMediaTypeException("File tpe must be .jpg | .jpeg | .png "), false)
+
+      }
+      callback(null, true)
+    }
+  }))
+  create(@Body() createProductDto: CreateProductDto, @UploadedFile() image: Express.Multer.File) {
+    return this.productsService.create(createProductDto, image);
   }
 
   @Get('all')
