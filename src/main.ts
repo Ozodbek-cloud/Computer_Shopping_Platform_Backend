@@ -5,9 +5,10 @@ import { setupSwagger } from './common/base/swagger.set-up';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({transform: true}))
-  await setupSwagger(app)
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.enableCors({ origin: 'http://localhost:3000', methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', credentials: true });
+  await setupSwagger(app);
   await app.listen(process.env.PORT ?? 3000);
-  console.log(`Server running at http://localhost:${process.env.PORT}/api_computer_swagger PORT`)
+  console.log(`Server running at http://localhost:${process.env.PORT}/api_computer_swagger PORT`);
 }
 bootstrap();

@@ -6,9 +6,20 @@ import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [AuthModule, CategoryModule, NestedCategoryModule, ProductsModule, OrdersModule, ContactModule, PaymentModule],
+
+  imports: [
+    ServeStaticModule.forRoot(
+      {
+        rootPath: join(process.cwd(), 'uploads',),
+        serveRoot: '/',
+      },
+    ),
+
+    AuthModule, CategoryModule, NestedCategoryModule, ProductsModule, OrdersModule, ContactModule, PaymentModule],
 
 })
-export class AppModule {}
+export class AppModule { }

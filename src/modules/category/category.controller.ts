@@ -27,7 +27,7 @@ export class CategoryController {
     return this.categoryService.update(+id, updateCategoryDto);
   }
 
-  @Delete(':id/create')
+  @Delete(':id/delete')
   remove(@Param('id') id: string) {
     return this.categoryService.remove(+id);
   }
