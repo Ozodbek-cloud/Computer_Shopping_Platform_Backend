@@ -8,6 +8,8 @@ import { ContactModule } from './modules/contact/contact.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { UsersModule } from './modules/users/users.module';
+import { MycartModule } from './modules/mycart/mycart.module';
 
 @Module({
 
@@ -19,7 +21,7 @@ import { join } from 'path';
       },
     ),
 
-    AuthModule, CategoryModule, NestedCategoryModule, ProductsModule, OrdersModule, ContactModule, PaymentModule],
+    AuthModule, CategoryModule, NestedCategoryModule, ProductsModule, OrdersModule, ContactModule, PaymentModule, UsersModule, MycartModule],
 
 })
 export class AppModule { }

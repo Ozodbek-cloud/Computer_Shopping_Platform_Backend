@@ -43,6 +43,13 @@ model Product {
   nestedcategoryId Int
   nestedCategoryId NestedCategory @relation(fields: [nestedcategoryId], references: [id])
   orders           Order[]
+  MyCart           MyCart[]
+}
+
+model MyCart {
+  id        Int     @id() @default(autoincrement())
+  productId String
+  products  Product @relation(fields: [productId], references: [id])
 }
 
 model Order {

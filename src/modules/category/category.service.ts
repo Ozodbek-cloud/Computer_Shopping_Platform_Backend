@@ -22,7 +22,7 @@ export class CategoryService {
   }
 
   async findAll() {
-    let data = await this.prismaService.category.findMany({include: {nestedCategories: {include: {Product: true}}}})
+    let data = await this.prismaService.category.findMany({ include: { nestedCategories: { include: { Product: true } } } })
     return {
       data: data,
       message: "Successfully Getted All Categories"
@@ -59,6 +59,34 @@ export class CategoryService {
       message: "Successfully Updated One Category"
     }
   }
+
+
+  async getCategoriesWithProducts(categoryIds: number[]) {
+    try {
+      const categories = await this.prismaService.category.findMany({
+        where: { id: { in: categoryIds } },
+        include: {
+          nestedCategories: {
+            include: { Product: true }, 
+          },
+        },
+      });
+
+      const products = categories.flatMap(
+        cat => cat.nestedCategories?.flatMap(nc => nc.Product ?? []) ?? []
+      );
+
+      const unique = Array.from(new Map(products.map(p => [p.id, p])).values());
+
+      return { data: unique };
+    } catch (error) {
+      console.error(error);
+      return { message: 'Internal Server Error', error: true };
+    }
+  }
+
+
+
 
   async remove(id: number) {
     let deleted_one = await this.prismaService.category.delete({

@@ -5,7 +5,7 @@ import { UpdateCategoryDto } from './interfaces/update-category.dto';
 
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(private readonly categoryService: CategoryService) { }
 
   @Post('create')
   create(@Body() createCategoryDto: CreateCategoryDto) {
@@ -20,6 +20,11 @@ export class CategoryController {
   @Get(':id/one')
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(+id);
+  }
+
+  @Post('by-ids')
+  async getCategoriesWithProducts(@Body() body: { categories: number[] }) {
+    return this.categoryService.getCategoriesWithProducts(body.categories);
   }
 
   @Patch(':id/update')
