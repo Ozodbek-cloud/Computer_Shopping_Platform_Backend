@@ -30,7 +30,7 @@ export class MycartService {
         id: id
       }
     })
-    if (delete_one) {
+    if (!delete_one) {
       throw new NotFoundException('Id not Found')
     }
     return {

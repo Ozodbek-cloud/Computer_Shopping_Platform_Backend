@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContactDto } from './interfaces/create-contact.dto';
 import { UpdateContactDto } from './interfaces/update-contact.dto';
+import { PrismaService } from 'src/core/prisma/prisma.service';
 
 @Injectable()
 export class ContactService {
-  create(createContactDto: CreateContactDto) {
-    return 'This action adds a new contact';
+  constructor(private prismaService: PrismaService) { }
+  async create(createContact: CreateContactDto) {
+    let data = await this.prismaService.contact.create({
+      data: createContact
+    })
+    return {
+      message: "Successfully Created YEAAEAEAEAEEE EE Bambir",
+      data:data
+    }
   }
 
   findAll() {
