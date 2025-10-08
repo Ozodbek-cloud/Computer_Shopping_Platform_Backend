@@ -11,13 +11,13 @@ export class OrderService {
   }
 
   async findAll() {
-    return this.prisma.order.findMany({ include: { product: true, user: true, payments: true } });
+    return this.prisma.order.findMany({ include: { product: true, user: true,} });
   }
 
   async findOne(id: number) {
-    return this.prisma.order.findUnique({ where: { id }, include: { product: true, user: true, payments: true } });
+    return this.prisma.order.findUnique({ where: { id }, include: { product: true, user: true,} });
   }
-
+  
   async update(id: number, dto: UpdateOrderDto) {
     return this.prisma.order.update({ where: { id }, data: dto });
   }

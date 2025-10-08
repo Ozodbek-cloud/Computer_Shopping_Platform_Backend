@@ -34,6 +34,9 @@ export class CategoryService {
       where: {
         id: id
       },
+      include: {
+        nestedCategories: {include: {Product:true}}
+      }
     })
     if (!find_one) throw new NotFoundException('Id Not Found')
 

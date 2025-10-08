@@ -34,8 +34,21 @@ export class MycartService {
       throw new NotFoundException('Id not Found')
     }
     return {
-         message: "Successsfully Removed From Cart",
-         data:delete_one
+      message: "Successsfully Removed From Cart",
+      data: delete_one
     }
   }
+  async removeAll() {
+    try {
+      const result = await this.prismaService.myCart.deleteMany();
+      return {
+        success: true,
+        deletedCount: result.count,
+        message: "All items successfully deleted",
+      };
+    } catch (error) {
+      throw new Error(`Failed to delete all items: ${error.message}`);
+    }
+  }
+
 }

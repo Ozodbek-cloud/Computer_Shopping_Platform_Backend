@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateOrderDto {
   @ApiProperty({ description: 'Buyurtma qilingan mahsulot soni', example: 2 })
@@ -12,6 +12,12 @@ export class CreateOrderDto {
 
   @ApiProperty({ description: 'Foydalanuvchi IDsi', example: 1 })
   userId: number;
+
+  @ApiProperty({ description: 'Buyurtma mamlakati', example: 'Uzbekistan', default: 'Unknown' })
+  country?: string;
+
+  @ApiPropertyOptional({ description: 'Chegirma kodi (agar mavjud bo‘lsa)', example: 'DISCOUNT10' })
+  discount_code?: string;
 }
 
 export class UpdateOrderDto {

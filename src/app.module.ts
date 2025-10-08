@@ -5,7 +5,6 @@ import { NestedCategoryModule } from './modules/nested_category/nested_category.
 import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { ContactModule } from './modules/contact/contact.module';
-import { PaymentModule } from './modules/payment/payment.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UsersModule } from './modules/users/users.module';
@@ -21,7 +20,7 @@ import { MycartModule } from './modules/mycart/mycart.module';
       },
     ),
 
-    AuthModule, CategoryModule, NestedCategoryModule, ProductsModule, OrdersModule, ContactModule, PaymentModule, UsersModule, MycartModule],
+    AuthModule, CategoryModule, NestedCategoryModule, ProductsModule, OrdersModule, ContactModule, UsersModule, MycartModule],
 
 })
 export class AppModule { }

@@ -5,7 +5,7 @@ import { UpdateMycartDto } from './interfaces/update-mycart.dto';
 
 @Controller('mycart')
 export class MycartController {
-  constructor(private readonly mycartService: MycartService) {}
+  constructor(private readonly mycartService: MycartService) { }
 
   @Post()
   create(@Body() createMycartDto: CreateMycartDto) {
@@ -22,5 +22,10 @@ export class MycartController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.mycartService.remove(+id);
+  }
+
+  @Delete('/delete/all')
+  removeAll() {
+    return this.mycartService.removeAll()
   }
 }

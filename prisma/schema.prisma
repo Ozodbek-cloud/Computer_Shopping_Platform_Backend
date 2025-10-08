@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String  @unique
-  password  String
-  Order     Order[]
+  id         Int     @id @default(autoincrement())
+  firstName  String
+  profil_img String?
+  lastName   String
+  email      String  @unique
+  password   String
+  Order      Order[]
 }
 
 model Category {
@@ -53,14 +54,15 @@ model MyCart {
 }
 
 model Order {
-  id        Int       @id @default(autoincrement())
-  count     Int
-  subTotal  Float
-  productId String
-  userId    Int
-  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id])
-  payments  Payment[]
+  id            Int     @id @default(autoincrement())
+  count         Int
+  subTotal      Float
+  productId     String
+  userId        Int
+  country       String  @default("Unknown")
+  discount_code String?
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user          User    @relation(fields: [userId], references: [id])
 }
 
 model Contact {
@@ -69,14 +71,4 @@ model Contact {
   email    String
   phone    String
   message  String
-}
-
-model Payment {
-  id        Int      @id @default(autoincrement())
-  amount    Float
-  status    String
-  method    String
-  createdAt DateTime @default(now())
-  orderId   Int
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
